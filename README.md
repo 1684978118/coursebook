@@ -1,68 +1,68 @@
-# 教材管理系统（Coursebook MIS）
+# 教材管理システム（Coursebook MIS）
 
-基于 **Spring Boot 3 + Vue 3** 前后端分离的高校教材管理系统，覆盖教材从入库、库存、审批发放到反馈的完整业务闭环。
+**Spring Boot 3 + Vue 3** によるフロントエンド・バックエンド分離型の大学教材管理システムです。教材の入庫から在庫管理、承認つき配布、学生からのフィードバックまで、一連の業務フローを実装しています。
 
-## 功能一览
+## 機能一覧
 
-系统包含三种角色：**管理员、教务员（教师）、学生**
+**管理者・教務担当（教員）・学生** の 3 つのロールで構成されています。
 
-| 模块 | 说明 |
+| モジュール | 説明 |
 |------|------|
-| 用户管理 | 注册、登录（JWT 鉴权）、个人信息与密码修改 |
-| 教材信息管理 | 教材基础信息与教材分类的增删改查 |
-| 入库管理 | 教材到货入库登记，自动更新库存 |
-| 库存管理 | 各教材实时库存查询与调整 |
-| 教材发放 | 教务员按班级提交发放申请 → 管理员审批（自动扣减库存）→ 标记领取 |
-| 班级管理 | 班级信息维护 |
-| 系统公告 | 管理员发布公告，全员可见 |
-| 数据统计 | 入库 / 发放 / 库存数量统计与教材库存分布饼图 |
-| 反馈模块 | 学生提交问题反馈，教务员回复处理 |
+| ユーザー管理 | 新規登録・ログイン（JWT 認証）・個人情報およびパスワード変更 |
+| 教材情報管理 | 教材の基本情報とカテゴリの CRUD |
+| 入庫管理 | 教材の入庫登録（在庫数を自動更新） |
+| 在庫管理 | 教材ごとのリアルタイム在庫照会・調整 |
+| 教材配布 | 教務担当がクラス単位で配布申請 → 管理者が承認（在庫を自動減算）→ 受取完了 |
+| クラス管理 | クラス情報の管理 |
+| お知らせ | 管理者が公開する全員向けのお知らせ |
+| データ集計 | 入庫・配布・在庫数の統計および教材別在庫分布の円グラフ |
+| フィードバック | 学生からの問い合わせ登録、教務担当による返信・処理 |
 
-## 技术栈
+## 技術スタック
 
-- **后端**：Spring Boot 3.3、MyBatis、MySQL 8、JWT（hutool-jwt）、Lombok
-- **前端**：Vue 3、Vite、Element Plus、ECharts、Axios
-- **工具**：Maven、npm
+- **バックエンド**：Spring Boot 3.3、MyBatis、MySQL 8、JWT（hutool-jwt）、Lombok
+- **フロントエンド**：Vue 3、Vite、Element Plus、ECharts、Axios
+- **ツール**：Maven、npm
 
-## 项目结构
+## プロジェクト構成
 
 ```
 coursebook
-├── springboot          # 后端 Spring Boot 项目
+├── springboot          # バックエンド（Spring Boot）
 │   └── src/main/java/com/example
-│       ├── controller  # 接口层
-│       ├── service     # 业务层
-│       ├── mapper      # MyBatis 数据层
-│       ├── entity      # 实体类
-│       └── common      # 通用配置（JWT 拦截器、全局返回、异常处理）
-├── vue                 # 前端 Vue 3 项目
-│   └── src/views       # 页面（manager 目录为管理端页面）
-└── coursebook.sql      # 数据库初始化脚本（含演示数据）
+│       ├── controller  # API 層
+│       ├── service     # ビジネスロジック層
+│       ├── mapper      # MyBatis データアクセス層
+│       ├── entity      # エンティティ
+│       └── common      # 共通設定（JWT インターセプター、統一レスポンス、例外処理）
+├── vue                 # フロントエンド（Vue 3）
+│   └── src/views       # 画面（manager ディレクトリは管理画面）
+└── coursebook.sql      # DB 初期化スクリプト（デモデータ付き）
 ```
 
-## 快速开始
+## セットアップ手順
 
-### 环境要求
+### 必要環境
 
 - JDK 17+、Maven 3.8+
 - Node.js 18+、MySQL 8.0
 
-### 1. 初始化数据库
+### 1. データベース初期化
 
-创建数据库 `coursebook`（utf8mb4），导入根目录的 `coursebook.sql`。
+DB `coursebook`（utf8mb4）を作成し、リポジトリ直下の `coursebook.sql` をインポートします。
 
-### 2. 启动后端
+### 2. バックエンド起動
 
-修改 `springboot/src/main/resources/application.yml` 中的数据库账号密码，然后：
+`springboot/src/main/resources/application.yml` の DB 接続情報を環境に合わせて修正してから：
 
 ```bash
 cd springboot
 mvn spring-boot:run
 ```
 
-后端运行在 `http://localhost:9090`。
+バックエンドは `http://localhost:9090` で起動します。
 
-### 3. 启动前端
+### 3. フロントエンド起動
 
 ```bash
 cd vue
@@ -70,28 +70,32 @@ npm install
 npm run dev
 ```
 
-打开 `http://localhost:5173` 即可访问。
+`http://localhost:5173` にアクセスしてください。
 
-### 演示账号
+### デモアカウント
 
-| 角色 | 账号 | 密码 |
+| ロール | アカウント | パスワード |
 |------|------|------|
-| 管理员 | admin | admin |
-| 教务员 | lls | 123 |
+| 管理者 | admin | admin |
+| 教務担当 | lls | 123 |
 | 学生 | 20201001 | 123 |
 
-## 部署
+## デプロイ
 
-1. 前端：修改 `vue/.env.production` 中 `VITE_BASE_URL` 为服务器地址，`npm run build` 后将 `dist` 部署到 Nginx，并配置 `try_files $uri $uri/ /index.html;`（history 路由刷新必需）。
-2. 后端：`mvn package` 得到 jar，服务器上 `java -jar` 运行（可用宝塔 Java 项目管理器），放行 9090 端口。
-3. 数据库：导入 `coursebook.sql`，同步修改 `application.yml` 的数据库连接与 `fileBaseUrl`。
+1. フロントエンド：`vue/.env.production` の `VITE_BASE_URL` をサーバーアドレスに変更し、`npm run build` 後に `dist` を Nginx へ配置。`try_files $uri $uri/ /index.html;` の設定が必要（history ルーティングのリロード対策）。
+2. バックエンド：`mvn package` で jar を生成し、`java -jar` で起動（BaoTa パネルの Java プロジェクトマネージャー等を利用）。ポート 9090 を開放。
+3. DB：`coursebook.sql` をインポートし、`application.yml` の接続情報と `fileBaseUrl` をサーバー環境に合わせて変更。
 
-## Roadmap
+## 今後の展望
 
-- [ ] 低库存预警：库存低于阈值时在首页提示管理员补货
-- [ ] 按学期维度管理教材与发放记录，支持学期对账导出
-- [ ] 发放明细到学生个人，支持领取确认
+- [ ] 在庫警告：在庫数がしきい値を下回ったら管理者へ通知
+- [ ] 学期単位での教材・配布記録管理、学期ごとの対帳エクスポート
+- [ ] 配布明細の学生単位での記録と受取確認
 
-## 说明
+## 補足
 
-本项目为个人毕业设计，用于学习与求职展示，数据库为演示数据。
+本プロジェクトは大学の卒業研究として個人開発したものです（学習・就職活動向けのポートフォリオであり、データはデモ用です）。
+
+---
+
+[中文版はこちら](README.zh-CN.md)
