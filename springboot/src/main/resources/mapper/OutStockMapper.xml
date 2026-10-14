@@ -1,0 +1,81 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.OutStockMapper">
+
+    <select id="selectAll" resultType="com.example.entity.OutStock">
+        select out_stock.*, class_info.name as className, textbook.name as textbookName from `out_stock`
+        left join class_info on out_stock.class_id = class_info.id
+        left join textbook on out_stock.textbook_id = textbook.id
+        <where>
+            <if test="classId != null"> and out_stock.class_id = #{classId}</if>
+            <if test="className != null"> and class_info.name like concat('%', #{className}, '%')</if>
+            <if test="textbookName != null"> and textbook.name like concat('%', #{textbookName}, '%')</if>
+        </where>
+        order by out_stock.id desc
+    </select>
+
+    <delete id="deleteById">
+        delete from `out_stock`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.OutStock" useGeneratedKeys="true">
+        insert into out_stock
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="textbookId != null">textbook_id,</if>
+            <if test="classId != null">class_id,</if>
+            <if test="number != null">number,</if>
+            <if test="address != null">address,</if>
+            <if test="outTime != null">out_time,</if>
+            <if test="status != null">status,</if>
+            <if test="remark != null">remark,</if>
+            <if test="getTime != null">get_time,</if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="textbookId != null">#{textbookId},</if>
+            <if test="classId != null">#{classId},</if>
+            <if test="number != null">#{number},</if>
+            <if test="address != null">#{address},</if>
+            <if test="outTime != null">#{outTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="getTime != null">#{getTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.OutStock">
+        update out_stock
+        <set>
+            <if test="textbookId != null">
+                textbook_id = #{textbookId},
+            </if>
+            <if test="classId != null">
+                class_id = #{classId},
+            </if>
+            <if test="number != null">
+                number = #{number},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="outTime != null">
+                out_time = #{outTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="getTime != null">
+                get_time = #{getTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

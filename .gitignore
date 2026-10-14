@@ -1,0 +1,19 @@
+# Java / SpringBoot
+springboot/target/
+springboot/logs/
+*.log
+*.class
+
+# Node / Vue
+vue/node_modules/
+vue/dist/
+*.local
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

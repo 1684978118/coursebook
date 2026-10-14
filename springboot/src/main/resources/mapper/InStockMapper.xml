@@ -1,0 +1,62 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.InStockMapper">
+
+    <select id="selectAll" resultType="com.example.entity.InStock">
+        select in_stock.*, textbook.name as textbookName, textbook.cover as textbookCover from `in_stock`
+        left join textbook on in_stock.textbook_id = textbook.id
+        <where>
+            <if test="textbookName != null"> and textbook.name like concat('%', #{textbookName}, '%')</if>
+        </where>
+        order by in_stock.id desc
+    </select>
+
+    <delete id="deleteById">
+        delete from `in_stock`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.InStock" useGeneratedKeys="true">
+        insert into `in_stock`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="textbookId != null">textbook_id,</if>
+            <if test="num != null">num,</if>
+            <if test="price != null">price,</if>
+            <if test="unit != null">unit,</if>
+            <if test="time != null">time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="textbookId != null">#{textbookId},</if>
+            <if test="num != null">#{num},</if>
+            <if test="price != null">#{price},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="time != null">#{time},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.InStock">
+        update `in_stock`
+        <set>
+            <if test="textbookId != null">
+                textbook_id = #{textbookId},
+            </if>
+            <if test="num != null">
+                num = #{num},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="unit != null">
+                unit = #{unit},
+            </if>
+            <if test="time != null">
+                time = #{time},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

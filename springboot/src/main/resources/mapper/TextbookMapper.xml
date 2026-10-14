@@ -1,0 +1,83 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.TextbookMapper">
+
+    <select id="selectAll" resultType="com.example.entity.Textbook">
+        select textbook.*, textbook_type.name as typeName from `textbook`
+        left join textbook_type on textbook.type_id = textbook_type.id
+        <where>
+            <if test="name != null"> and textbook.name like concat('%', #{name}, '%')</if>
+            <if test="attribute != null"> and textbook.attribute = #{attribute}</if>
+        </where>
+        order by textbook.id desc
+    </select>
+
+    <delete id="deleteById">
+        delete from `textbook`
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Textbook" useGeneratedKeys="true">
+        insert into textbook
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="author != null">author,</if>
+            <if test="publisher != null">publisher,</if>
+            <if test="publishDate != null">publish_date,</if>
+            <if test="isbn != null">isbn,</if>
+            <if test="cover != null">cover,</if>
+            <if test="attribute != null">attribute,</if>
+            <if test="typeId != null">type_id,</if>
+            <if test="price != null">price,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="author != null">#{author},</if>
+            <if test="publisher != null">#{publisher},</if>
+            <if test="publishDate != null">#{publishDate},</if>
+            <if test="isbn != null">#{isbn},</if>
+            <if test="cover != null">#{cover},</if>
+            <if test="attribute != null">#{attribute},</if>
+            <if test="typeId != null">#{typeId},</if>
+            <if test="price != null">#{price},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Textbook">
+        update textbook
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="author != null">
+                author = #{author},
+            </if>
+            <if test="publisher != null">
+                publisher = #{publisher},
+            </if>
+            <if test="publishDate != null">
+                publish_date = #{publishDate},
+            </if>
+            <if test="isbn != null">
+                isbn = #{isbn},
+            </if>
+            <if test="cover != null">
+                cover = #{cover},
+            </if>
+            <if test="attribute != null">
+                attribute = #{attribute},
+            </if>
+            <if test="typeId != null">
+                type_id = #{typeId},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
